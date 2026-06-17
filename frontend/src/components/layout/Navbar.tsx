@@ -200,9 +200,7 @@ export function Navbar() {
             className="fixed inset-0 z-[60] bg-linen flex flex-col overflow-y-auto"
           >
             <div className="flex justify-between items-center p-4 border-b border-moss/10">
-              <span className="font-display font-semibold tracking-widest text-xl text-moss uppercase">
-                SAA
-              </span>
+              <BrandLogo className="w-36 h-10" />
               <button onClick={() => setMobileMenuOpen(false)} className="text-moss p-2">
                 <X className="w-6 h-6" />
               </button>
