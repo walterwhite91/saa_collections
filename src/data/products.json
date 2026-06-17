@@ -1,0 +1,70 @@
+{
+  "dresses": [
+    {
+      "id": "d-1",
+      "slug": "wildflower-prairie-dress",
+      "name": "Wildflower Prairie Dress",
+      "category": "Dresses",
+      "price": 6900,
+      "description": "A romantic cottagecore dress designed for women who want to feel soft, beautiful, and connected to nature. The structured corset creates a flattering silhouette while the flowing prairie skirt adds movement and grace.",
+      "image": "design-4-wildflower-prairie-model.png",
+      "colors": ["#F5EDD8", "#8FA88A", "#C9907E"],
+      "featured": true,
+      "bestSeller": true
+    },
+    {
+      "id": "d-2",
+      "slug": "himalayan-forest-maiden",
+      "name": "Himalayan Forest Maiden",
+      "category": "Dresses",
+      "price": 7900,
+      "description": "A timeless Renaissance milkmaid dress with off-shoulder sleeves, lace-up corset and a romantic flowing silhouette.",
+      "image": "design-5-medieval-forest-model.png",
+      "colors": ["#5C3D2E", "#3A5940", "#6B2737"],
+      "featured": true,
+      "bestSeller": false
+    },
+    {
+      "id": "d-3",
+      "slug": "midnight-forest-queen",
+      "name": "Midnight Forest Queen",
+      "category": "Dresses",
+      "price": 11900,
+      "description": "Inspired by moonlit forests, ancient castles, dark fairies, and timeless feminine power.",
+      "image": "design-10-midnight-queen-model.png",
+      "colors": ["#1A1A1A", "#1B4332", "#4A0E1A"],
+      "featured": true,
+      "bestSeller": false
+    },
+    {
+      "id": "d-4",
+      "slug": "himalayan-forest-fairy",
+      "name": "Himalayan Forest Fairy",
+      "category": "Dresses",
+      "price": 12900,
+      "description": "SAA's most magical creation — a signature fairy gown inspired by Himalayan forest spirits and enchanted meadows.",
+      "image": "design-14-himalayan-fairy-model.png",
+      "colors": ["#7D9E8C", "#E8D5B0", "#D4A5A0"],
+      "featured": true,
+      "bestSeller": true
+    }
+  ],
+  "jewelry": [
+    { "id": "j-1", "slug": "pearl-drop-necklace", "name": "Pearl Drop Necklace", "category": "Jewelry", "price": 1250, "description": "Minimal elegance for everyday beauty.", "image": "pearl_necklace.png", "featured": true },
+    { "id": "j-2", "slug": "pearl-hoop-earrings", "name": "Pearl Hoop Earrings", "category": "Jewelry", "price": 1150, "description": "Classic hoops with a graceful pearl drop.", "image": "earring.png", "featured": false },
+    { "id": "j-3", "slug": "floral-pendant-set", "name": "Floral Pendant Set", "category": "Jewelry", "price": 1350, "description": "Inspired by wildflowers and warm afternoons.", "image": "woman wearing necklace.png", "featured": true },
+    { "id": "j-4", "slug": "gold-leaf-bangle", "name": "Gold Leaf Bangle", "category": "Jewelry", "price": 1450, "description": "A reminder of nature's fine details.", "image": "pearl_necklace.png", "featured": false }
+  ],
+  "skincare": [
+    { "id": "c-1", "slug": "himalayan-glow-serum", "name": "Himalayan Glow Serum", "category": "Skincare", "price": 1250, "description": "Nourish. Brighten. Glow.", "image": "glow_serum.png", "featured": true },
+    { "id": "c-2", "slug": "rose-hydrating-cream", "name": "Rose Hydrating Cream", "category": "Skincare", "price": 1450, "description": "Deep hydration for soft, radiant skin.", "image": "Rose_moisturizer.png", "featured": false },
+    { "id": "c-3", "slug": "botanical-face-oil", "name": "Botanical Face Oil", "category": "Skincare", "price": 1350, "description": "Nourish deeply. Glow naturally.", "image": "glow_serum.png", "featured": true },
+    { "id": "c-4", "slug": "natural-lip-tint", "name": "Natural Lip Tint", "category": "Skincare", "price": 750, "description": "Subtle tint. Natural shine.", "image": "glow_serum.png", "featured": false }
+  ],
+  "accessories": [
+    { "id": "a-1", "slug": "fairycore-hair-ribbon", "name": "Fairycore Hair Ribbon", "category": "Accessories", "price": 450, "description": "Soft ribbon for romantic braids.", "image": "hair_accessory.png", "featured": true },
+    { "id": "a-2", "slug": "pearl-hair-comb", "name": "Pearl Hair Comb", "category": "Accessories", "price": 850, "description": "Elegant comb with natural pearls.", "image": "hair_accessory.png", "featured": false },
+    { "id": "a-3", "slug": "handmade-mini-bag", "name": "Handmade Mini Bag", "category": "Accessories", "price": 2450, "description": "A perfect little companion.", "image": "hair_accessory.png", "featured": true },
+    { "id": "a-4", "slug": "silk-scarf", "name": "Silk Scarf", "category": "Accessories", "price": 1150, "description": "Luxurious soft silk for any occasion.", "image": "hair_accessory.png", "featured": false }
+  ]
+}

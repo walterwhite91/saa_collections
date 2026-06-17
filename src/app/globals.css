@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F2EBE1; /* Classic Linen */
+  --foreground: #4A3C31; /* Dark Moss */
+}
+
+@theme inline {
+  --color-linen: #F2EBE1;
+  --color-umber: #8E7756;
+  --color-mushroom: #96A188;
+  --color-obsidian: #121212;
+  --color-moss: #4A3C31;
+
+  --font-display: var(--font-playfair), serif;
+  --font-sans: var(--font-montserrat), sans-serif;
+  --font-body: var(--font-montserrat), sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
