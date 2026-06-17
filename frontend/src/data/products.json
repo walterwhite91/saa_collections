@@ -20,7 +20,7 @@
       "price": 7900,
       "description": "A timeless Renaissance milkmaid dress with off-shoulder sleeves, lace-up corset and a romantic flowing silhouette.",
       "image": "design-5-medieval-forest-model.png",
-      "colors": ["#5C3D2E", "#3A5940", "#6B2737"],
+      "colors": ["#EADEC9", "#3A5940", "#6B2737"],
       "featured": true,
       "bestSeller": false
     },
