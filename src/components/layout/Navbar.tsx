@@ -215,7 +215,7 @@ export function Navbar() {
               <Link href="/collections/jewelry" onClick={() => setMobileMenuOpen(false)}>Jewelry</Link>
               <Link href="/collections/skincare" onClick={() => setMobileMenuOpen(false)}>Skincare</Link>
               <Link href="/collections/accessories" onClick={() => setMobileMenuOpen(false)}>Accessories</Link>
-              <Link href="/collections/essentials" onClick={() => setMobileMenuOpen(false)}>Curated Essentials</Link>
+              <Link href="/collections/essentials" onClick={() => setMobileMenuOpen(false)}>Essentials</Link>
               <Link href="/sustainability" onClick={() => setMobileMenuOpen(false)}>Sustainability</Link>
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
               
