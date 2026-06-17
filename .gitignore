@@ -45,3 +45,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# design & media review
+/UI_Screenshots/
+/Design Reference for SAA Collection/
+/assets/
+/pdf_generator/
+/artifacts/
+
+
