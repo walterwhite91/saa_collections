@@ -7,12 +7,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { BrandLogo } from "@/components/layout/Logo";
 import { useStore } from "@/context/StoreContext";
+import productsData from "@/data/products.json";
 
 export function Navbar() {
   const { cart, wishlist, openCart } = useStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,6 +25,13 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const allProducts = [
+    ...productsData.dresses,
+    ...productsData.jewelry,
+    ...productsData.skincare,
+    ...productsData.accessories
+  ];
 
   return (
     <>
@@ -75,7 +85,7 @@ export function Navbar() {
 
             {/* Right Icons */}
             <div className="flex items-center space-x-4 lg:space-x-6 text-moss">
-              <button className="hover:text-umber transition-colors p-1 hidden lg:block">
+              <button onClick={() => setIsSearchOpen(true)} className="hover:text-umber transition-colors p-1 hidden lg:block">
                 <Search className="w-5 h-5" />
               </button>
               <Link href="/account" className="hover:text-umber transition-colors p-1 hidden lg:block">
@@ -211,6 +221,19 @@ export function Navbar() {
             </div>
 
             <nav className="flex-1 px-6 py-8 flex flex-col space-y-6 font-display text-2xl text-moss">
+              {/* Search box on top of dresses */}
+              <div className="mb-2">
+                <button
+                  onClick={() => { setIsSearchOpen(true); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-3 px-4 py-3 bg-parchment/65 border border-moss/10 rounded-sm text-left hover:border-moss/30 transition-colors"
+                >
+                  <Search className="w-5 h-5 text-moss/50" />
+                  <span className="font-sans text-xs uppercase tracking-widest text-moss/50">
+                    Search SAA...
+                  </span>
+                </button>
+              </div>
+
               <Link href="/collections/dresses" onClick={() => setMobileMenuOpen(false)}>Dresses</Link>
               <Link href="/collections/jewelry" onClick={() => setMobileMenuOpen(false)}>Jewelry</Link>
               <Link href="/collections/skincare" onClick={() => setMobileMenuOpen(false)}>Skincare</Link>
@@ -221,14 +244,115 @@ export function Navbar() {
               
               <div className="pt-8 mt-8 border-t border-moss/10 flex flex-col space-y-4 text-lg">
                 <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login / Create Account</Link>
-                <div className="flex gap-6 pt-4">
-                  <button className="flex items-center gap-2 text-sm font-sans tracking-widest uppercase text-umber hover:text-moss">
-                    <Search className="w-5 h-5" /> Search
-                  </button>
-                </div>
               </div>
             </nav>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+              }}
+              className="fixed inset-0 bg-obsidian/40 z-[60] backdrop-blur-sm"
+            />
+
+            {/* Search Panel */}
+            <motion.div
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+              className="fixed top-0 inset-x-0 bg-linen shadow-xl z-[70] border-b border-moss/10"
+            >
+              <div className="max-w-4xl mx-auto px-4 py-8">
+                <div className="flex items-center justify-between gap-4 border-b border-moss/20 pb-4 mb-6">
+                  <Search className="w-6 h-6 text-moss/60 shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search for dresses, jewelry, skincare..."
+                    autoFocus
+                    className="w-full bg-transparent border-none text-xl font-sans text-moss placeholder-moss/45 focus:outline-none"
+                  />
+                  <button
+                    onClick={() => {
+                      setIsSearchOpen(false);
+                      setSearchQuery("");
+                    }}
+                    className="p-2 text-moss/60 hover:text-umber transition-colors shrink-0"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                {/* Results list */}
+                {searchQuery && (
+                  <div className="max-h-[60vh] overflow-y-auto divide-y divide-moss/5">
+                    {allProducts
+                      .filter((p) =>
+                        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        p.description.toLowerCase().includes(searchQuery.toLowerCase())
+                      )
+                      .slice(0, 5)
+                      .map((product) => (
+                        <Link
+                          key={product.id}
+                          href={`/products/${product.slug}`}
+                          onClick={() => {
+                            setIsSearchOpen(false);
+                            setSearchQuery("");
+                          }}
+                          className="flex items-center gap-4 py-4 hover:bg-parchment/30 px-3 rounded transition-colors group"
+                        >
+                          <div className="relative w-16 h-20 bg-parchment shrink-0 overflow-hidden rounded-sm">
+                            <Image
+                              src={`/images/${product.image}`}
+                              alt={product.name}
+                              fill
+                              sizes="64px"
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <span className="text-[10px] uppercase tracking-widest text-mushroom font-sans block mb-0.5">
+                              {product.category}
+                            </span>
+                            <h4 className="font-display text-lg text-moss group-hover:text-umber transition-colors">
+                              {product.name}
+                            </h4>
+                          </div>
+                          <div className="font-sans text-sm text-moss">
+                            NPR {product.price.toLocaleString()}
+                          </div>
+                        </Link>
+                      ))}
+
+                    {allProducts.filter((p) =>
+                      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      p.description.toLowerCase().includes(searchQuery.toLowerCase())
+                    ).length === 0 && (
+                      <div className="py-8 text-center text-moss/50 font-sans text-sm">
+                        No products found matching &ldquo;{searchQuery}&rdquo;
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
