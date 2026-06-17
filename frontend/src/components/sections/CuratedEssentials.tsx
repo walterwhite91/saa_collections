@@ -42,7 +42,7 @@ export function CuratedEssentials() {
   ];
 
   const desktopItems = essentials.slice(0, 7);
-  const mobileItems = essentials.slice(0, 4);
+  const mobileItems = essentials.slice(0, 7);
 
   // We track the scroll progress of the container
   const { scrollYProgress } = useScroll({
