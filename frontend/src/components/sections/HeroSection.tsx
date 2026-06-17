@@ -11,7 +11,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <Image
-          src="/images/hero_campaign.jpg"
+          src="/images/hero_campaign.png"
           alt="SAA Collection - Fairycore dreams, Nepali soul"
           fill
           priority
