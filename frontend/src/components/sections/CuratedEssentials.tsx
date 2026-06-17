@@ -91,6 +91,7 @@ export function CuratedEssentials() {
                     src={`/images/${item.image}`}
                     alt={item.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, 320px"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </Link>
@@ -123,6 +124,7 @@ export function CuratedEssentials() {
                       src={`/images/${item.image}`}
                       alt={item.name}
                       fill
+                      sizes="260px"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </Link>

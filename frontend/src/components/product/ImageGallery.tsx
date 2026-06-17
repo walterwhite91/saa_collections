@@ -33,6 +33,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
               src={`/images/${img}`}
               alt={`${productName} thumbnail ${idx + 1}`}
               fill
+              sizes="80px"
               className="object-cover"
             />
           </button>
@@ -50,6 +51,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
           alt={productName}
           fill
           priority
+          sizes="(max-width: 768px) 100vw, 50vw"
           className={`object-cover transition-transform duration-200 ${isZoomed ? "scale-[2]" : "scale-100"}`}
           style={
             isZoomed

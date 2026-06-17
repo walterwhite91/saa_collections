@@ -23,6 +23,7 @@ export function BeautyStory() {
                 src="/images/glow_serum.png"
                 alt="Natural beauty and delicate details"
                 fill
+                sizes="(max-width: 768px) 100vw, 448px"
                 className="object-cover"
               />
             </div>

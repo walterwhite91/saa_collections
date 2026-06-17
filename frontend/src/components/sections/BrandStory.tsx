@@ -34,6 +34,7 @@ export function BrandStory() {
             src="/images/brand-overview.jpeg"
             alt="Himalayan beauty"
             fill
+            sizes="(max-width: 1024px) 100vw, 1024px"
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-obsidian/10" />

@@ -36,6 +36,7 @@ export function CollectionFeature() {
                     src={`/images/${dress.image}`}
                     alt={dress.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className={imageClass}
                   />
                 <button className="absolute top-4 right-4 p-2 bg-linen/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-linen hover:text-umber text-moss">

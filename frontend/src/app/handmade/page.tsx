@@ -33,6 +33,7 @@ export default function HandmadePage() {
                 src="/images/design-5-medieval-forest-model.png"
                 alt="Handmade dress craftsmanship"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -60,6 +61,7 @@ export default function HandmadePage() {
                 src="/images/glow_serum.png"
                 alt="Natural botanical skincare"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -87,6 +89,7 @@ export default function HandmadePage() {
                 src="/images/pearl_necklace.png"
                 alt="Handcrafted jewelry details"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>

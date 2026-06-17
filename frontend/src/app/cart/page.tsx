@@ -46,7 +46,7 @@ export default function CartPage() {
                 
                 <div className="col-span-6 flex gap-6 w-full">
                   <Link href={`/products/${item.slug}`} className="relative w-24 aspect-[3/4] bg-parchment shrink-0">
-                    <Image src={`/images/${item.image}`} alt={item.name} fill className="object-cover" />
+                    <Image src={`/images/${item.image}`} alt={item.name} fill sizes="96px" className="object-cover" />
                   </Link>
                   <div className="flex flex-col justify-center">
                     <span className="font-sans text-xs uppercase tracking-widest text-mushroom mb-1">{item.category}</span>

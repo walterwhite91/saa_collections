@@ -44,6 +44,7 @@ export default function SustainabilityPage() {
             src="/images/brand-overview.jpeg"
             alt="Artisan crafting a dress"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
           />
         </div>

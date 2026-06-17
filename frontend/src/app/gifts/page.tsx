@@ -58,7 +58,7 @@ export default function GiftsPage() {
         {giftSets.map((set) => (
           <div key={set.id} className="group bg-parchment/30 border border-moss/10 rounded-sm overflow-hidden">
             <div className="relative aspect-square bg-parchment overflow-hidden">
-              <Image src={`/images/${set.image}`} alt={set.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <Image src={`/images/${set.image}`} alt={set.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
             <div className="p-8">
               <h3 className="font-display text-2xl text-moss mb-3">{set.name}</h3>

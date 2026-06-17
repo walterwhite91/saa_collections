@@ -158,6 +158,7 @@ export function Navbar() {
                         src="/images/design-4-wildflower-prairie-full.png" 
                         alt="Dress Collection" 
                         fill 
+                        sizes="(max-width: 1200px) 250px, 20vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-obsidian/0 transition-colors duration-500" />
@@ -171,6 +172,7 @@ export function Navbar() {
                         src="/images/pearl_necklace.png" 
                         alt="Natural Beauty" 
                         fill 
+                        sizes="(max-width: 1200px) 250px, 20vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-obsidian/0 transition-colors duration-500" />

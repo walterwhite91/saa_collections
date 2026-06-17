@@ -25,6 +25,7 @@ export default function AboutPage() {
           src="/images/brand-overview.jpeg"
           alt="SAA Collection Brand Story"
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />
@@ -67,6 +68,7 @@ export default function AboutPage() {
               src="/images/design-14-himalayan-fairy-model.png"
               alt="SAA Collection — Himalayan Forest Fairy"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
           </div>
