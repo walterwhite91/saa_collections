@@ -14,6 +14,9 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+import { StoreProvider } from "@/context/StoreContext";
+import { CartDrawer } from "@/components/layout/CartDrawer";
+
 export const metadata: Metadata = {
   title: "SAA Collection | Fairycore dreams, Nepali soul",
   description: "Romantic dresses, natural beauty, and elegant details inspired by Himalayan femininity.",
@@ -30,11 +33,14 @@ export default function RootLayout({
       className={`${playfair.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-linen text-moss">
-        <Navbar />
-        <div className="flex-1">
-          {children}
-        </div>
-        <Footer />
+        <StoreProvider>
+          <Navbar />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+          <CartDrawer />
+        </StoreProvider>
       </body>
     </html>
   );

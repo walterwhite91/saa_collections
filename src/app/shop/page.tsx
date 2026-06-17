@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, SlidersHorizontal, Heart } from "lucide-react";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import productsData from "@/data/products.json";
+import { ProductCard } from "@/components/product/ProductCard";
 
 export default function ShopPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -89,38 +90,7 @@ export default function ShopPage() {
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="group relative flex flex-col">
-                <Link href={`/products/${product.slug}`} className="block relative aspect-[3/4] bg-parchment overflow-hidden mb-4">
-                  <Image
-                    src={`/images/${product.image}`}
-                    alt={product.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <button className="absolute top-4 right-4 p-2 bg-linen/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-linen hover:text-umber text-moss">
-                    <Heart className="w-4 h-4" />
-                  </button>
-                  <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-obsidian/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
-                    <span className="bg-linen text-moss font-sans text-xs uppercase tracking-widest px-6 py-2">
-                      View Product
-                    </span>
-                  </div>
-                </Link>
-                
-                <div className="flex flex-col flex-1">
-                  <span className="font-sans text-xs uppercase tracking-widest text-mushroom mb-1">
-                    {product.category}
-                  </span>
-                  <Link href={`/products/${product.slug}`}>
-                    <h3 className="font-display text-lg text-moss group-hover:text-umber transition-colors mb-2">
-                      {product.name}
-                    </h3>
-                  </Link>
-                  <span className="font-sans text-sm text-moss mt-auto">
-                    NPR {product.price.toLocaleString()}
-                  </span>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>

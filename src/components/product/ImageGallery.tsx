@@ -10,6 +10,15 @@ interface ImageGalleryProps {
 
 export function ImageGallery({ images, productName }: ImageGalleryProps) {
   const [mainImage, setMainImage] = useState(images[0]);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePosition({ x, y });
+  };
 
   return (
     <div className="flex flex-col-reverse md:flex-row gap-4">
@@ -30,13 +39,23 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
         ))}
       </div>
       
-      <div className="relative aspect-[3/4] w-full bg-parchment overflow-hidden">
+      <div 
+        className="relative aspect-[3/4] w-full bg-parchment overflow-hidden cursor-crosshair"
+        onMouseEnter={() => setIsZoomed(true)}
+        onMouseLeave={() => setIsZoomed(false)}
+        onMouseMove={handleMouseMove}
+      >
         <Image
           src={`/images/${mainImage}`}
           alt={productName}
           fill
           priority
-          className="object-cover"
+          className={`object-cover transition-transform duration-200 ${isZoomed ? "scale-[2]" : "scale-100"}`}
+          style={
+            isZoomed
+              ? { transformOrigin: `${mousePosition.x}% ${mousePosition.y}%` }
+              : { transformOrigin: "center center" }
+          }
         />
       </div>
 

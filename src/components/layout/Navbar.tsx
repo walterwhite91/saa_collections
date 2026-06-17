@@ -6,8 +6,10 @@ import { Search, User, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-r
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { BrandLogo } from "@/components/layout/Logo";
+import { useStore } from "@/context/StoreContext";
 
 export function Navbar() {
+  const { cart, wishlist, openCart } = useStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
@@ -67,7 +69,7 @@ export function Navbar() {
               <Link href="/collections/jewelry" className="hover:text-umber transition-colors py-8">Jewelry</Link>
               <Link href="/collections/skincare" className="hover:text-umber transition-colors py-8">Skincare</Link>
               <Link href="/collections/accessories" className="hover:text-umber transition-colors py-8">Accessories</Link>
-              <Link href="/collections/essentials" className="hover:text-umber transition-colors py-8">Curated Essentials</Link>
+              <Link href="/collections/essentials" className="hover:text-umber transition-colors py-8">Essentials</Link>
               <Link href="/sustainability" className="hover:text-umber transition-colors py-8">Sustainability</Link>
             </nav>
 
@@ -80,11 +82,21 @@ export function Navbar() {
                 <User className="w-5 h-5" />
               </Link>
               <Link href="/wishlist" className="hover:text-umber transition-colors p-1 relative">
-                <Heart className="w-5 h-5" />
+                <Heart className="w-5 h-5" fill={wishlist.length > 0 ? "currentColor" : "none"} />
+                {wishlist.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-umber text-linen text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-sans">
+                    {wishlist.length}
+                  </span>
+                )}
               </Link>
-              <Link href="/cart" className="hover:text-umber transition-colors p-1 relative">
+              <button onClick={openCart} className="hover:text-umber transition-colors p-1 relative">
                 <ShoppingBag className="w-5 h-5" />
-              </Link>
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-umber text-linen text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-sans">
+                    {cart.reduce((total, item) => total + item.quantity, 0)}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -131,7 +143,7 @@ export function Navbar() {
                     <div>
                       <h4 className="font-display text-lg text-umber mb-4">More</h4>
                       <ul className="space-y-3 font-sans text-sm text-moss/80">
-                        <li><Link href="/collections/essentials" className="hover:text-moss transition-colors">Curated Essentials</Link></li>
+                        <li><Link href="/collections/essentials" className="hover:text-moss transition-colors">Essentials</Link></li>
                         <li><Link href="/handmade" className="hover:text-moss transition-colors">Handmade Details</Link></li>
                         <li><Link href="/sustainability" className="hover:text-moss transition-colors">Sustainability</Link></li>
                         <li><Link href="/about" className="hover:text-moss transition-colors">Brand Story</Link></li>

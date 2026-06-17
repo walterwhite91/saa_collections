@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { Heart, Minus, Plus, Truck, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { ProductActions } from "@/components/product/ProductActions";
 
 export function generateStaticParams() {
   const allProducts = [
@@ -14,7 +15,8 @@ export function generateStaticParams() {
   return allProducts.map((p) => ({ slug: p.slug }));
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const allProducts = [
     ...productsData.dresses,
     ...productsData.jewelry,
@@ -22,7 +24,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     ...productsData.accessories
   ];
   
-  const product = allProducts.find((p) => p.slug === params.slug);
+  const product = allProducts.find((p) => p.slug === slug);
   
   if (!product) {
     notFound();
@@ -32,8 +34,16 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const isSkincare = product.category === "Skincare";
   const isJewelry = product.category === "Jewelry";
   
-  // Fake gallery images based on main image
-  const galleryImages = [product.image, product.image, product.image];
+  // Gallery images logic based on base name
+  let galleryImages = [product.image];
+  if (product.image.endsWith("-model.png")) {
+    const base = product.image.replace("-model.png", "");
+    galleryImages = [
+      `${base}-model.png`,
+      `${base}-product.png`,
+      `${base}-full.png`
+    ];
+  }
 
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -69,39 +79,8 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             {product.description}
           </p>
 
-          {/* Conditional Options */}
-          {isDress && (
-            <div className="mb-8 border-t border-moss/10 pt-8">
-              <div className="flex justify-between items-center mb-4">
-                <span className="font-sans text-xs tracking-widest uppercase text-moss">Select Size</span>
-                <button className="font-sans text-xs text-umber underline hover:text-moss transition-colors">Size Guide</button>
-              </div>
-              <div className="grid grid-cols-4 gap-3">
-                {['XS', 'S', 'M', 'L'].map(size => (
-                  <button key={size} className="border border-moss/20 py-3 font-sans text-xs hover:border-moss transition-colors">
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Actions */}
-          <div className="flex flex-col gap-4 mb-12 border-t border-moss/10 pt-8">
-            <div className="flex gap-4">
-              <div className="flex items-center border border-moss/20 px-4">
-                <button className="p-2 text-moss hover:text-umber transition-colors"><Minus className="w-4 h-4" /></button>
-                <span className="w-12 text-center font-sans text-sm">1</span>
-                <button className="p-2 text-moss hover:text-umber transition-colors"><Plus className="w-4 h-4" /></button>
-              </div>
-              <button className="flex-1 bg-moss text-linen font-sans text-xs uppercase tracking-widest hover:bg-umber transition-colors duration-300">
-                Add to Cart
-              </button>
-              <button className="px-4 border border-moss/20 text-moss hover:border-umber hover:text-umber transition-colors flex items-center justify-center">
-                <Heart className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+          {/* Product Actions Component */}
+          <ProductActions product={product} isDress={isDress} />
 
           {/* Details Accordion */}
           <div className="border-t border-moss/10 divide-y divide-moss/10">

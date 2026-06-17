@@ -46,9 +46,10 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.8rem] leading-tight text-linen drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] whitespace-nowrap"
+          className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-[4.8rem] leading-tight text-linen drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] whitespace-normal md:whitespace-nowrap"
         >
-          Fairycore dreams, <span className="italic font-light">Nepali soul.</span>
+          Fairycore dreams, <br className="block md:hidden" />
+          <span className="italic font-light">Nepali soul.</span>
         </motion.h1>
       </div>
 
