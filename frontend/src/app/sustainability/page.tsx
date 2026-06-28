@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getImageUrl } from "@/lib/utils/image";
 
 export default function SustainabilityPage() {
   const values = [
@@ -39,10 +40,10 @@ export default function SustainabilityPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
-        <div className="relative aspect-[3/4] w-full bg-parchment overflow-hidden">
-          <Image
-            src="/images/brand-overview.jpeg"
-            alt="Artisan crafting a dress"
+        <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-sm mb-16">
+          <Image 
+            src={getImageUrl("brand-overview.jpeg")}
+            alt="SAA Collection Atelier"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"

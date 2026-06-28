@@ -1,68 +1,57 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "lucide-react";
-import productsData from "@/data/products.json";
 import { ProductCard } from "@/components/product/ProductCard";
+import { createClient } from "@/lib/supabase/server";
 
-const categoryConfig: Record<string, { title: string; description: string; filter: () => typeof allProducts }> = {};
-
-const allProducts = [
-  ...productsData.dresses,
-  ...productsData.jewelry,
-  ...productsData.skincare,
-  ...productsData.accessories,
-];
-
-const configs: Record<string, { title: string; description: string; filterFn: (products: typeof allProducts) => typeof allProducts }> = {
+const configs: Record<string, { title: string; description: string; filterFn: (products: any[]) => any[] }> = {
   dresses: {
     title: "Dresses",
     description: "Romantic silhouettes for photoshoots, special moments, and feminine daily wear.",
-    filterFn: () => productsData.dresses,
+    filterFn: (products) => products.filter(p => p.category?.slug === "dresses"),
   },
   jewelry: {
     title: "Jewelry",
     description: "Delicate handcrafted pieces inspired by nature and Himalayan beauty.",
-    filterFn: () => productsData.jewelry,
+    filterFn: (products) => products.filter(p => p.category?.slug === "jewelry"),
   },
   skincare: {
     title: "Skincare",
     description: "Botanical formulas crafted from pure, natural ingredients for radiant skin.",
-    filterFn: () => productsData.skincare,
+    filterFn: (products) => products.filter(p => p.category?.slug === "skincare"),
   },
   accessories: {
     title: "Accessories",
     description: "Finishing touches that complete the SAA look — from hair ribbons to handmade bags.",
-    filterFn: () => productsData.accessories,
+    filterFn: (products) => products.filter(p => p.category?.slug === "accessories"),
   },
   essentials: {
     title: "Curated Essentials",
     description: "Jewelry, skincare, and finishing details for the full SAA experience.",
-    filterFn: () => [...productsData.jewelry, ...productsData.skincare, ...productsData.accessories],
+    filterFn: (products) => products.filter(p => ["jewelry", "skincare", "accessories"].includes(p.category?.slug)),
   },
   fairy: {
     title: "Fairycore Dresses",
     description: "Ethereal gowns inspired by enchanted forests, wildflower meadows, and soft magic.",
-    filterFn: () => productsData.dresses.filter(d => d.slug.includes("fairy") || d.slug.includes("wildflower") || d.slug.includes("prairie")),
+    filterFn: (products) => products.filter(p => p.category?.slug === "dresses" && (p.slug.includes("fairy") || p.slug.includes("wildflower") || p.slug.includes("prairie"))),
   },
   himalayan: {
     title: "Himalayan Forest Collection",
     description: "Designs rooted in the mystic romance and quiet strength of the Himalayas.",
-    filterFn: () => productsData.dresses.filter(d => d.slug.includes("himalayan") || d.slug.includes("forest")),
+    filterFn: (products) => products.filter(p => p.category?.slug === "dresses" && (p.slug.includes("himalayan") || p.slug.includes("forest"))),
   },
   events: {
     title: "Event Wear",
     description: "Statement pieces designed for memorable occasions and celebrations.",
-    filterFn: () => productsData.dresses.filter(d => d.price >= 7000),
+    filterFn: (products) => products.filter(p => p.category?.slug === "dresses" && p.price >= 7000),
   },
   photoshoot: {
     title: "Photoshoot Pieces",
     description: "Dramatic, editorial-worthy garments that photograph beautifully in any setting.",
-    filterFn: () => productsData.dresses,
+    filterFn: (products) => products.filter(p => p.category?.slug === "dresses"),
   },
   beauty: {
     title: "Natural Beauty Essentials",
     description: "Pure skincare and cosmetic essentials for a naturally radiant glow.",
-    filterFn: () => productsData.skincare,
+    filterFn: (products) => products.filter(p => p.category?.slug === "skincare"),
   },
 };
 
@@ -95,7 +84,16 @@ export default async function CollectionPage({ params }: { params: Promise<{ cat
     );
   }
 
-  const products = config.filterFn(allProducts);
+  const supabase = await createClient();
+  const { data: allProducts } = await supabase
+    .from("products")
+    .select("*, category:categories(slug, name)")
+    .eq("in_stock", true);
+
+  const products = config.filterFn(allProducts || []).map(p => ({
+    ...p,
+    category: p.category?.name || "Unknown"
+  }));
 
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

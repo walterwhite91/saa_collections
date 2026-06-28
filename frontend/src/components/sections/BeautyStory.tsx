@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/utils/image";
 import { motion } from "framer-motion";
 
 export function BeautyStory() {
@@ -18,10 +19,10 @@ export function BeautyStory() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="w-full lg:w-1/2 relative"
           >
-            <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:mx-0 overflow-hidden">
+            <div className="relative aspect-[3/4] lg:aspect-[4/5] overflow-hidden rounded-sm">
               <Image
-                src="/images/glow_serum.png"
-                alt="Natural beauty and delicate details"
+                src={getImageUrl("glow_serum.png")}
+                alt="Himalayan Glow Serum"
                 fill
                 sizes="(max-width: 768px) 100vw, 448px"
                 className="object-cover"

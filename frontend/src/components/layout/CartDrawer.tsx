@@ -1,6 +1,7 @@
 "use client";
 
 import { useStore } from "@/context/StoreContext";
+import { getImageUrl } from "@/lib/utils/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import Image from "next/image";
@@ -81,7 +82,7 @@ export function CartDrawer() {
                         className="relative w-24 aspect-[3/4] bg-parchment shrink-0"
                       >
                         <Image
-                          src={`/images/${item.image}`}
+                          src={getImageUrl(item.image)}
                           alt={item.name}
                           fill
                           sizes="96px"

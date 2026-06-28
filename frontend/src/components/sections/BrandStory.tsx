@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { getImageUrl } from "@/lib/utils/image";
 
 export function BrandStory() {
   return (
@@ -31,7 +32,7 @@ export function BrandStory() {
           className="max-w-5xl mx-auto w-full relative aspect-[4/3] md:aspect-[1.45/1] overflow-hidden"
         >
           <Image
-            src="/images/brand-overview.jpeg"
+            src={getImageUrl("brand-overview.jpeg")}
             alt="Himalayan beauty"
             fill
             sizes="(max-width: 1024px) 100vw, 1024px"

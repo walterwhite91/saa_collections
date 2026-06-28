@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/utils/image";
 
 export function LogoIcon({ className = "w-16 h-12" }: { className?: string }) {
   return (
@@ -20,8 +21,8 @@ export function BrandLogo({ className = "w-56 h-16 md:w-80 md:h-20" }: { classNa
   return (
     <div className={`relative ${className}`}>
       <Image
-        src="/images/logo_1.png"
-        alt="SAA Collection Logo"
+        src={getImageUrl("logo_1.png")}
+        alt="SAA Collection"
         fill
         sizes="(max-width: 768px) 224px, 320px"
         className="object-contain object-center lg:object-left"

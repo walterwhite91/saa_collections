@@ -2,28 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Minus, Plus, X } from "lucide-react";
-import productsData from "@/data/products.json";
-
-interface CartItem {
-  id: string;
-  slug: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  image: string;
-  quantity: number;
-  size?: string;
-}
+import { Minus, Plus } from "lucide-react";
+import { useStore } from "@/context/StoreContext";
+import { getImageUrl } from "@/lib/utils/image";
 
 export default function CartPage() {
-  const cartItems: CartItem[] = [
-    { ...productsData.dresses[0], quantity: 1, size: "S" },
-    { ...productsData.skincare[0], quantity: 2 }
-  ];
+  const { cart, removeFromCart, updateQuantity } = useStore();
 
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,41 +27,63 @@ export default function CartPage() {
           </div>
 
           <div className="divide-y divide-moss/10">
-            {cartItems.map((item, idx) => (
-              <div key={idx} className="py-8 flex flex-col md:grid md:grid-cols-12 gap-4 items-start md:items-center">
-                
-                <div className="col-span-6 flex gap-6 w-full">
-                  <Link href={`/products/${item.slug}`} className="relative w-24 aspect-[3/4] bg-parchment shrink-0">
-                    <Image src={`/images/${item.image}`} alt={item.name} fill sizes="96px" className="object-cover" />
-                  </Link>
-                  <div className="flex flex-col justify-center">
-                    <span className="font-sans text-xs uppercase tracking-widest text-mushroom mb-1">{item.category}</span>
-                    <Link href={`/products/${item.slug}`} className="font-display text-lg text-moss hover:text-umber transition-colors mb-1">
-                      {item.name}
-                    </Link>
-                    {item.size && (
-                      <span className="font-sans text-xs text-moss/70 mb-2">Size: {item.size}</span>
-                    )}
-                    <button className="text-left font-sans text-xs text-umber underline hover:text-moss transition-colors w-max mt-auto">
-                      Remove
-                    </button>
-                  </div>
-                </div>
-
-                <div className="col-span-3 flex justify-start md:justify-center w-full mt-4 md:mt-0">
-                  <div className="flex items-center border border-moss/20 px-3 py-1">
-                    <button className="p-1 text-moss hover:text-umber"><Minus className="w-3 h-3" /></button>
-                    <span className="w-8 text-center font-sans text-sm text-moss">{item.quantity}</span>
-                    <button className="p-1 text-moss hover:text-umber"><Plus className="w-3 h-3" /></button>
-                  </div>
-                </div>
-
-                <div className="col-span-3 w-full text-left md:text-right font-sans text-sm text-moss mt-4 md:mt-0">
-                  NPR {(item.price * item.quantity).toLocaleString()}
-                </div>
-
+            {cart.length === 0 ? (
+              <div className="py-12 text-center">
+                <p className="font-sans text-sm text-moss/70 mb-6">Your shopping bag is empty.</p>
+                <Link href="/shop" className="inline-block px-8 py-3 bg-umber text-linen font-sans text-xs uppercase tracking-widest hover:bg-moss transition-colors">
+                  Continue Shopping
+                </Link>
               </div>
-            ))}
+            ) : (
+              cart.map((item) => (
+                <div key={item.id} className="py-8 flex flex-col md:grid md:grid-cols-12 gap-4 items-start md:items-center">
+                  
+                  <div className="col-span-6 flex gap-6 w-full">
+                    <Link href={`/products/${item.slug}`} className="relative w-24 aspect-[3/4] bg-parchment shrink-0">
+                      <Image src={getImageUrl(item.image)} alt={item.name} fill sizes="96px" className="object-cover" />
+                    </Link>
+                    <div className="flex flex-col justify-center">
+                      <span className="font-sans text-xs uppercase tracking-widest text-mushroom mb-1">{item.category}</span>
+                      <Link href={`/products/${item.slug}`} className="font-display text-lg text-moss hover:text-umber transition-colors mb-1">
+                        {item.name}
+                      </Link>
+                      {item.size && (
+                        <span className="font-sans text-xs text-moss/70 mb-2">Size: {item.size}</span>
+                      )}
+                      <button 
+                        onClick={() => removeFromCart(item.id)}
+                        className="text-left font-sans text-xs text-umber underline hover:text-moss transition-colors w-max mt-auto"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="col-span-3 flex justify-start md:justify-center w-full mt-4 md:mt-0">
+                    <div className="flex items-center border border-moss/20 px-3 py-1">
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="p-1 text-moss hover:text-umber"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="w-8 text-center font-sans text-sm text-moss">{item.quantity}</span>
+                      <button 
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="p-1 text-moss hover:text-umber"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="col-span-3 w-full text-left md:text-right font-sans text-sm text-moss mt-4 md:mt-0">
+                    NPR {(item.price * item.quantity).toLocaleString()}
+                  </div>
+
+                </div>
+              ))
+            )}
           </div>
         </div>
 

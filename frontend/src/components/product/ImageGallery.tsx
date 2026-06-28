@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/utils/image";
 
 interface ImageGalleryProps {
   images: string[];
@@ -30,7 +31,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
             className={`relative aspect-[3/4] w-20 md:w-full bg-parchment overflow-hidden transition-all duration-300 ${mainImage === img ? 'ring-1 ring-umber opacity-100' : 'opacity-60 hover:opacity-100'}`}
           >
             <Image
-              src={`/images/${img}`}
+              src={getImageUrl(img)}
               alt={`${productName} thumbnail ${idx + 1}`}
               fill
               sizes="80px"
@@ -47,7 +48,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
         onMouseMove={handleMouseMove}
       >
         <Image
-          src={`/images/${mainImage}`}
+          src={getImageUrl(mainImage)}
           alt={productName}
           fill
           priority

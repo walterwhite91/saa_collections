@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import productsData from "@/data/products.json";
+import { getImageUrl } from "@/lib/utils/image";
 
 export function CollectionFeature() {
   const dresses = productsData.dresses;
@@ -33,7 +34,7 @@ export function CollectionFeature() {
               <div key={dress.id} className="group relative flex flex-col">
                 <Link href={`/products/${dress.slug}`} className="block relative aspect-[3/4] bg-parchment overflow-hidden mb-4">
                   <Image
-                    src={`/images/${dress.image}`}
+                    src={getImageUrl(dress.image)}
                     alt={dress.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"

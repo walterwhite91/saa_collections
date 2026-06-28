@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getImageUrl } from "@/lib/utils/image";
 import Link from "next/link";
 import { Leaf, Mountain, Sparkles, Heart } from "lucide-react";
 
@@ -20,10 +21,10 @@ export default function AboutPage() {
       </div>
 
       {/* Hero */}
-      <div className="relative w-full aspect-[21/9] mb-20 overflow-hidden">
-        <Image
-          src="/images/brand-overview.jpeg"
-          alt="SAA Collection Brand Story"
+      <div className="relative aspect-[21/9] md:aspect-[21/9] overflow-hidden rounded-sm mb-24">
+        <Image 
+          src={getImageUrl("brand-overview.jpeg")}
+          alt="SAA Collection Atelier"
           fill
           sizes="100vw"
           className="object-cover object-center"
@@ -63,10 +64,10 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className="relative aspect-[3/4] bg-parchment overflow-hidden">
-            <Image
-              src="/images/design-14-himalayan-fairy-model.png"
-              alt="SAA Collection — Himalayan Forest Fairy"
+          <div className="relative aspect-[3/4] md:aspect-[4/5] rounded-sm overflow-hidden mt-12 md:mt-0">
+            <Image 
+              src={getImageUrl("design-14-himalayan-fairy-model.png")}
+              alt="SAA Collection Process"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"

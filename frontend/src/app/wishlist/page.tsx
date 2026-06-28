@@ -1,26 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { ProductCard } from "@/components/product/ProductCard";
-import productsData from "@/data/products.json";
+import { useState, useEffect } from "react";
 
 export default function WishlistPage() {
   const { wishlist } = useStore();
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Combine all products from all categories
-  const allProducts = [
-    ...productsData.dresses,
-    ...productsData.jewelry,
-    ...productsData.skincare,
-    ...productsData.accessories
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (wishlist.length === 0) {
+        setProducts([]);
+        setIsLoading(false);
+        return;
+      }
+      
+      setIsLoading(true);
+      try {
+        const res = await fetch("/api/products?limit=100");
+        if (res.ok) {
+          const data = await res.json();
+          const allProducts = data.products || [];
+          // Map to match ProductCard expectations
+          const mapped = allProducts.map((p: any) => ({
+             ...p,
+             category: p.category?.name || "Unknown"
+          }));
+          const filtered = mapped.filter((p: any) => wishlist.includes(p.id));
+          setProducts(filtered);
+        }
+      } catch (error) {
+        console.error("Failed to fetch wishlist products", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  // Filter products that are in the wishlist
-  const favoriteProducts = allProducts.filter((product) =>
-    wishlist.includes(product.id)
-  );
+    fetchProducts();
+  }, [wishlist]);
 
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[60vh]">
@@ -28,14 +49,18 @@ export default function WishlistPage() {
         Your Favourites
       </h1>
       <p className="font-sans text-sm text-moss/80 text-center mb-16">
-        {favoriteProducts.length > 0
-          ? `You have saved ${favoriteProducts.length} ${
-              favoriteProducts.length === 1 ? "piece" : "pieces"
+        {wishlist.length > 0
+          ? `You have saved ${wishlist.length} ${
+              wishlist.length === 1 ? "piece" : "pieces"
             } to your dream wardrobe.`
           : "Your dream pieces will appear here."}
       </p>
 
-      {favoriteProducts.length === 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+           <Loader2 className="w-8 h-8 animate-spin text-umber" />
+        </div>
+      ) : products.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 px-4 bg-parchment/50 border border-moss/5 text-center max-w-2xl mx-auto rounded-sm">
           <Heart className="w-12 h-12 text-mushroom mb-6 stroke-1" />
           <h2 className="font-display text-2xl text-moss mb-4">Your list is currently empty</h2>
@@ -51,7 +76,7 @@ export default function WishlistPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {favoriteProducts.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

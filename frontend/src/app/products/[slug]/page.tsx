@@ -1,38 +1,35 @@
-import productsData from "@/data/products.json";
 import { notFound } from "next/navigation";
 import { ImageGallery } from "@/components/product/ImageGallery";
-import { Heart, Minus, Plus, Truck, ArrowLeft } from "lucide-react";
+import { Truck } from "lucide-react";
 import Link from "next/link";
 import { ProductActions } from "@/components/product/ProductActions";
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
-export function generateStaticParams() {
-  const allProducts = [
-    ...productsData.dresses,
-    ...productsData.jewelry,
-    ...productsData.skincare,
-    ...productsData.accessories
-  ];
-  return allProducts.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const supabase = createAdminClient();
+  const { data } = await supabase.from("products").select("slug");
+  return data ? data.map((p) => ({ slug: p.slug })) : [];
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const allProducts = [
-    ...productsData.dresses,
-    ...productsData.jewelry,
-    ...productsData.skincare,
-    ...productsData.accessories
-  ];
+  const supabase = await createClient();
   
-  const product = allProducts.find((p) => p.slug === slug);
-  
+  const { data: product } = await supabase
+    .from("products")
+    .select("*, category:categories(name)")
+    .eq("slug", slug)
+    .single();
+    
   if (!product) {
     notFound();
   }
 
-  const isDress = product.category === "Dresses";
-  const isSkincare = product.category === "Skincare";
-  const isJewelry = product.category === "Jewelry";
+  const categoryName = product.category?.name || "Unknown";
+  const isDress = categoryName === "Dresses";
+  const isSkincare = categoryName === "Skincare";
+  const isJewelry = categoryName === "Jewelry";
   
   // Gallery images logic based on base name
   let galleryImages = [product.image];
@@ -44,6 +41,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       `${base}-full.png`
     ];
   }
+
+  const mappedProduct = {
+    ...product,
+    category: categoryName
+  };
 
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,7 +67,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         {/* Product Info */}
         <div className="lg:col-span-5 flex flex-col pt-4">
           <span className="font-sans text-xs tracking-[0.2em] uppercase text-mushroom mb-2">
-            {product.category}
+            {categoryName}
           </span>
           <h1 className="font-display text-4xl lg:text-5xl text-moss mb-4">
             {product.name}
@@ -80,7 +82,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </p>
 
           {/* Product Actions Component */}
-          <ProductActions product={product} isDress={isDress} />
+          <ProductActions product={mappedProduct} isDress={isDress} />
 
           {/* Details Accordion */}
           <div className="border-t border-moss/10 divide-y divide-moss/10">

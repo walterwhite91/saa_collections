@@ -14,6 +14,7 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+import { AuthProvider } from "@/context/AuthContext";
 import { StoreProvider } from "@/context/StoreContext";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 
@@ -33,14 +34,16 @@ export default function RootLayout({
       className={`${playfair.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-linen text-moss">
-        <StoreProvider>
-          <Navbar />
-          <div className="flex-1">
-            {children}
-          </div>
-          <Footer />
-          <CartDrawer />
-        </StoreProvider>
+        <AuthProvider>
+          <StoreProvider>
+            <Navbar />
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
+            <CartDrawer />
+          </StoreProvider>
+        </AuthProvider>
       </body>
     </html>
   );

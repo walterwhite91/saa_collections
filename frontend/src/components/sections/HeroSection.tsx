@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/utils/image";
 import { LogoIcon } from "@/components/layout/Logo";
 
 export function HeroSection() {
@@ -11,7 +12,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <Image
-          src="/images/hero_section.jpeg"
+          src={getImageUrl("hero_section.jpeg")}
           alt="SAA Collection - Fairycore dreams, Nepali soul"
           fill
           priority

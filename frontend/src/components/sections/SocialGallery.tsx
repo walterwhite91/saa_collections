@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/utils/image";
 import { motion } from "framer-motion";
 
 export function SocialGallery() {
   const images = [
-    { src: "/images/design-4-wildflower-prairie-model.png", aspect: "aspect-square" },
-    { src: "/images/glow_serum.png", aspect: "aspect-square" },
-    { src: "/images/pearl_necklace.png", aspect: "aspect-square" },
-    { src: "/images/hair_accessory.png", aspect: "aspect-square" },
-    { src: "/images/design-10-midnight-queen-model.png", aspect: "aspect-square" },
-    { src: "/images/design-14-himalayan-fairy-model.png", aspect: "aspect-square" },
+    { src: getImageUrl("design-4-wildflower-prairie-model.png"), aspect: "aspect-square" },
+    { src: getImageUrl("glow_serum.png"), aspect: "aspect-square" },
+    { src: getImageUrl("pearl_necklace.png"), aspect: "aspect-square" },
+    { src: getImageUrl("hair_accessory.png"), aspect: "aspect-square" },
+    { src: getImageUrl("design-10-midnight-queen-model.png"), aspect: "aspect-square" },
+    { src: getImageUrl("design-14-himalayan-fairy-model.png"), aspect: "aspect-square" },
   ];
 
   return (

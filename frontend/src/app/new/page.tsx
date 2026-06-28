@@ -1,21 +1,28 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
-import productsData from "@/data/products.json";
 import { ProductCard } from "@/components/product/ProductCard";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata = {
   title: "New Arrivals | SAA Collection",
   description: "Discover the latest additions to SAA Collection — freshly crafted dresses, jewelry, skincare, and accessories.",
 };
 
-export default function NewArrivalsPage() {
-  const newProducts = [
-    ...productsData.dresses.slice(-2),
-    ...productsData.jewelry.slice(-2),
-    ...productsData.skincare.slice(-2),
-    ...productsData.accessories.slice(-2),
-  ];
+export default async function NewArrivalsPage() {
+  const supabase = await createClient();
+  
+  // Get latest products
+  const { data: newProducts } = await supabase
+    .from("products")
+    .select("*, category:categories(name)")
+    .eq("in_stock", true)
+    .order("created_at", { ascending: false })
+    .limit(8);
+
+  const products = (newProducts || []).map((p: any) => ({
+    ...p,
+    category: p.category?.name || "Unknown"
+  }));
 
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,7 +44,7 @@ export default function NewArrivalsPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {newProducts.map((product) => (
+        {products.map((product) => (
           <div key={product.id} className="relative">
             <ProductCard product={product} />
             <div className="absolute top-4 left-4 z-20 pointer-events-none">

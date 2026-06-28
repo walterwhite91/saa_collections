@@ -3,34 +3,39 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getImageUrl } from "@/lib/utils/image";
 
 export function EditorialBlocks() {
   const blocks = [
     {
-      title: "Fairycore Dresses",
-      image: "/images/design-14-himalayan-fairy-full.png",
+      title: "The Fairycore Collection",
+      subtitle: "Ethereal & Enchanted",
+      image: getImageUrl("design-14-himalayan-fairy-full.png"),
       link: "/collections/fairycore",
       colSpan: "col-span-1 md:col-span-8",
       aspect: "aspect-[4/3] md:aspect-[1.4/1]"
     },
     {
       title: "Himalayan Forest",
-      image: "/images/design-5-medieval-forest-full.png",
+      subtitle: "Dark Romance",
+      image: getImageUrl("design-5-medieval-forest-full.png"),
       link: "/collections/himalayan",
       colSpan: "col-span-1 md:col-span-4",
       aspect: "aspect-[3/4]"
     },
     {
-      title: "Event Wear",
-      image: "/images/sage-garden-corset-dress-full.png",
-      link: "/collections/events",
+      title: "Sage Garden",
+      subtitle: "Prairie Dreams",
+      image: getImageUrl("sage-garden-corset-dress-full.png"),
+      link: "/collections/dresses",
       colSpan: "col-span-1 md:col-span-4",
       aspect: "aspect-[3/4]"
     },
     {
-      title: "Photoshoot Pieces",
-      image: "/images/design-10-midnight-queen-full.png",
-      link: "/collections/photoshoot",
+      title: "Midnight Queen",
+      subtitle: "Evening Elegance",
+      image: getImageUrl("design-10-midnight-queen-full.png"),
+      link: "/collections/events",
       colSpan: "col-span-1 md:col-span-8",
       aspect: "aspect-[4/3] md:aspect-[1.4/1]"
     }

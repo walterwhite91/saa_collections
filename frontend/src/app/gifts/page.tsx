@@ -1,40 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Gift } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { getImageUrl } from "@/lib/utils/image";
 
 export const metadata = {
   title: "Gift Sets | SAA Collection",
   description: "Curated gift sets from SAA Collection — perfect for birthdays, celebrations, and moments of love.",
 };
 
-const giftSets = [
-  {
-    id: "gs-1",
-    name: "The Dreamer's Set",
-    description: "Pearl Drop Necklace + Himalayan Glow Serum — a perfect pairing of elegance and radiance.",
-    price: 2300,
-    image: "pearl_necklace.png",
-    includes: ["Pearl Drop Necklace", "Himalayan Glow Serum", "Gift wrapping"],
-  },
-  {
-    id: "gs-2",
-    name: "Himalayan Glow Bundle",
-    description: "Our complete skincare ritual — cleanse, nourish, and glow with pure botanical ingredients.",
-    price: 3050,
-    image: "glow_serum.png",
-    includes: ["Himalayan Glow Serum", "Rose Hydrating Cream", "Botanical Face Oil", "Gift wrapping"],
-  },
-  {
-    id: "gs-3",
-    name: "The Romance Set",
-    description: "Fairycore Hair Ribbon + Floral Pendant Set — for women who love romantic, delicate details.",
-    price: 1600,
-    image: "hair_accessory.png",
-    includes: ["Fairycore Hair Ribbon", "Floral Pendant Set", "Handwritten card"],
-  },
-];
+export default async function GiftsPage() {
+  const supabase = await createClient();
+  const { data: giftSets } = await supabase
+    .from("gift_sets")
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
 
-export default function GiftsPage() {
   return (
     <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <nav className="font-sans text-xs text-moss/50 mb-8 tracking-wide">
@@ -55,10 +37,10 @@ export default function GiftsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {giftSets.map((set) => (
+        {(giftSets || []).map((set) => (
           <div key={set.id} className="group bg-parchment/30 border border-moss/10 rounded-sm overflow-hidden">
             <div className="relative aspect-square bg-parchment overflow-hidden">
-              <Image src={`/images/${set.image}`} alt={set.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <Image src={getImageUrl(set.image)} alt={set.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
             <div className="p-8">
               <h3 className="font-display text-2xl text-moss mb-3">{set.name}</h3>
@@ -66,7 +48,7 @@ export default function GiftsPage() {
               <div className="mb-6">
                 <span className="font-sans text-xs uppercase tracking-widest text-mushroom block mb-2">Includes:</span>
                 <ul className="space-y-1">
-                  {set.includes.map((item, i) => (
+                  {set.includes.map((item: string, i: number) => (
                     <li key={i} className="font-sans text-sm text-moss/80">• {item}</li>
                   ))}
                 </ul>

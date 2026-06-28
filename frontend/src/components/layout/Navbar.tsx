@@ -7,10 +7,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { BrandLogo } from "@/components/layout/Logo";
 import { useStore } from "@/context/StoreContext";
+import { useAuth } from "@/context/AuthContext";
+import { getImageUrl } from "@/lib/utils/image";
 import productsData from "@/data/products.json";
 
 export function Navbar() {
   const { cart, wishlist, openCart } = useStore();
+  const { isAuthenticated, user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
@@ -88,8 +91,11 @@ export function Navbar() {
               <button onClick={() => setIsSearchOpen(true)} className="hover:text-umber transition-colors p-1 hidden lg:block">
                 <Search className="w-5 h-5" />
               </button>
-              <Link href="/account" className="hover:text-umber transition-colors p-1 hidden lg:block">
+              <Link href="/account" className="hover:text-umber transition-colors p-1 hidden lg:block relative" title={isAuthenticated ? (user?.email || 'Account') : 'Sign In'}>
                 <User className="w-5 h-5" />
+                {isAuthenticated && (
+                  <span className="absolute -top-1 -right-1 bg-umber w-2.5 h-2.5 rounded-full" />
+                )}
               </Link>
               <Link href="/wishlist" className="hover:text-umber transition-colors p-1 relative">
                 <Heart className="w-5 h-5" fill={wishlist.length > 0 ? "currentColor" : "none"} />
@@ -163,32 +169,36 @@ export function Navbar() {
                   
                   {/* Image Cards */}
                   <div className="col-span-5 grid grid-cols-2 gap-6">
-                    <Link href="/collections/dresses" className="group block relative aspect-[3/4] overflow-hidden bg-parchment rounded-sm">
-                      <Image 
-                        src="/images/design-4-wildflower-prairie-full.png" 
-                        alt="Dress Collection" 
-                        fill 
-                        sizes="(max-width: 1200px) 250px, 20vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-obsidian/0 transition-colors duration-500" />
-                      <div className="absolute bottom-6 left-6 text-linen">
-                        <span className="font-display text-xl block mb-1">Dress Collection</span>
-                        <span className="font-sans text-xs tracking-widest uppercase">Explore</span>
+                    <Link href="/collections/dresses" className="group block overflow-hidden rounded-sm">
+                      <div className="relative aspect-[3/4] bg-parchment">
+                        <Image 
+                          src={getImageUrl("design-4-wildflower-prairie-full.png")} 
+                          alt="Fairycore Collection" 
+                          fill 
+                          sizes="(max-width: 1200px) 250px, 20vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-obsidian/0 transition-colors duration-500" />
+                        <div className="absolute bottom-6 left-6 text-linen">
+                          <span className="font-display text-xl block mb-1">Dress Collection</span>
+                          <span className="font-sans text-xs tracking-widest uppercase">Explore</span>
+                        </div>
                       </div>
                     </Link>
-                    <Link href="/collections/jewelry" className="group block relative aspect-[3/4] overflow-hidden bg-parchment rounded-sm">
-                      <Image 
-                        src="/images/pearl_necklace.png" 
-                        alt="Natural Beauty" 
-                        fill 
-                        sizes="(max-width: 1200px) 250px, 20vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-obsidian/0 transition-colors duration-500" />
-                      <div className="absolute bottom-6 left-6 text-linen">
-                        <span className="font-display text-xl block mb-1">Jewelry & Beauty</span>
-                        <span className="font-sans text-xs tracking-widest uppercase">Explore</span>
+                    <Link href="/collections/jewelry" className="group block overflow-hidden rounded-sm">
+                      <div className="relative aspect-[3/4] bg-parchment">
+                        <Image 
+                          src={getImageUrl("pearl_necklace.png")} 
+                          alt="Pearl Jewelry" 
+                          fill 
+                          sizes="(max-width: 1200px) 250px, 20vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-obsidian/10 group-hover:bg-obsidian/0 transition-colors duration-500" />
+                        <div className="absolute bottom-6 left-6 text-linen">
+                          <span className="font-display text-xl block mb-1">Jewelry & Beauty</span>
+                          <span className="font-sans text-xs tracking-widest uppercase">Explore</span>
+                        </div>
                       </div>
                     </Link>
                   </div>
@@ -243,7 +253,14 @@ export function Navbar() {
               <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
               
               <div className="pt-8 mt-8 border-t border-moss/10 flex flex-col space-y-4 text-lg">
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login / Create Account</Link>
+                {isAuthenticated ? (
+                  <>
+                    <Link href="/account" onClick={() => setMobileMenuOpen(false)}>My Account</Link>
+                    <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)}>Wishlist</Link>
+                  </>
+                ) : (
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login / Create Account</Link>
+                )}
               </div>
             </nav>
           </motion.div>
@@ -316,9 +333,9 @@ export function Navbar() {
                           }}
                           className="flex items-center gap-4 py-4 hover:bg-parchment/30 px-3 rounded transition-colors group"
                         >
-                          <div className="relative w-16 h-20 bg-parchment shrink-0 overflow-hidden rounded-sm">
+                          <div className="relative w-16 aspect-[3/4] bg-parchment shrink-0 overflow-hidden rounded-sm">
                             <Image
-                              src={`/images/${product.image}`}
+                              src={getImageUrl(product.image)}
                               alt={product.name}
                               fill
                               sizes="64px"

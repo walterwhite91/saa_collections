@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import productsData from "@/data/products.json";
+import { getImageUrl } from "@/lib/utils/image";
 
 export function CuratedEssentials() {
   const [mounted, setMounted] = useState(false);
@@ -88,7 +89,7 @@ export function CuratedEssentials() {
               <div key={item.id} className="shrink-0 w-[320px] group">
                 <Link href={`/products/${item.slug}`} className="block relative aspect-[4/5] bg-parchment overflow-hidden mb-4 rounded-sm">
                   <Image
-                    src={`/images/${item.image}`}
+                    src={getImageUrl(item.image)}
                     alt={item.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 320px"
@@ -121,7 +122,7 @@ export function CuratedEssentials() {
                 <div key={item.id} className="snap-start shrink-0 w-[260px] group">
                   <Link href={`/products/${item.slug}`} className="block relative aspect-[4/5] bg-parchment overflow-hidden mb-4 rounded-sm">
                     <Image
-                      src={`/images/${item.image}`}
+                      src={getImageUrl(item.image)}
                       alt={item.name}
                       fill
                       sizes="260px"

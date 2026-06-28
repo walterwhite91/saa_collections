@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/utils/image";
 
 export const metadata = {
   title: "Handmade Details | SAA Collection",
@@ -28,10 +29,10 @@ export default function HandmadePage() {
         <div className="space-y-28">
           {/* Section 1 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative aspect-[4/5] bg-parchment overflow-hidden">
+            <div className="relative aspect-[4/5] rounded-sm overflow-hidden">
               <Image
-                src="/images/design-5-medieval-forest-model.png"
-                alt="Handmade dress craftsmanship"
+                src={getImageUrl("design-5-medieval-forest-model.png")}
+                alt="Making of SAA dresses"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -56,10 +57,10 @@ export default function HandmadePage() {
 
           {/* Section 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="lg:order-2 relative aspect-[4/5] bg-parchment overflow-hidden">
+            <div className="lg:order-2 relative aspect-[4/5] rounded-sm overflow-hidden">
               <Image
-                src="/images/glow_serum.png"
-                alt="Natural botanical skincare"
+                src={getImageUrl("glow_serum.png")}
+                alt="SAA Natural Skincare ingredients"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -84,10 +85,10 @@ export default function HandmadePage() {
 
           {/* Section 3 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative aspect-[4/5] bg-parchment overflow-hidden">
+            <div className="relative aspect-[4/5] rounded-sm overflow-hidden">
               <Image
-                src="/images/pearl_necklace.png"
-                alt="Handcrafted jewelry details"
+                src={getImageUrl("pearl_necklace.png")}
+                alt="Handcrafted Jewelry"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"

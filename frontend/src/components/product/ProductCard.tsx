@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
+import { getImageUrl } from "@/lib/utils/image";
 
 interface Product {
   id: string;
@@ -21,7 +22,7 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="group relative flex flex-col">
       <Link href={`/products/${product.slug}`} className="block relative aspect-[3/4] bg-parchment overflow-hidden mb-4">
         <Image
-          src={`/images/${product.image}`}
+          src={getImageUrl(product.image)}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
